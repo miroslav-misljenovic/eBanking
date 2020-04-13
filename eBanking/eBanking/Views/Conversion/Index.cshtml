@@ -1,0 +1,41 @@
+﻿@model Conversion
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Conversion</h1>
+<div class="row col-md-8">
+    <form method="post">
+        <table>
+            @foreach (BankAccount account in ViewBag.Accounts)
+            {
+            <tr>
+                <td> @account.Currency.Name </td>
+                <td> @account.Balance </td>
+            </tr>
+            }
+        </table>
+        <div class="form-group">
+            <label class="control-label"> Conversion from </label>
+            <select asp-for="CurrencyIdFrom" class="form-control" asp-items="ViewBag.Currencies"></select>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label"> To </label>
+            <select asp-for="CurrencyIdTo" class="form-control" asp-items="ViewBag.Currencies"></select>
+            @*jquery ili js za uklanjanje CurrencyIdFrom iz ovog selecta...*@
+        </div>
+
+        <div class="form-group">
+            <label class="control-label"> Amount </label>
+            <input asp-for="Amount" class="form-control" />   
+        </div>
+        
+        <div class="form-group">
+            <input asp-action="ConvertMoney" type="submit" class="btn btn-success" />
+        </div>
+        <p>
+            @ViewData["Message"]
+        </p>
+    </form>
+</div>

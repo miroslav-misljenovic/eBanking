@@ -1,0 +1,25 @@
+﻿@model CreateBankAccount
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Bank account</h1>
+<div class="row col-md-8">
+    <form method="post">
+
+        <div class="form-group">
+            <label class="control-label"> Currency </label>
+            <!--<input asp-for="CurrencyId" class="form-control" />-->
+            <select asp-for="CurrencyId" class="form-control" asp-items="ViewBag.Currencies"></select>
+            
+        </div>
+
+        <div class="form-group">
+            <input asp-action="CreateNewAccount" type="submit" value="Create" class="btn btn-success"/>
+        </div>
+        <p>
+            @ViewData["Message"]
+        </p>
+    </form>
+</div>

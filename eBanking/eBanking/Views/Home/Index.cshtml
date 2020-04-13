@@ -1,0 +1,26 @@
+﻿@model CurrencyRates
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    
+    <table align="center">
+        <tr>
+            <th>Currency</th>
+            <th>Rate</th>
+        </tr>
+        @foreach (var rate in @Model.rates)
+        {
+            <tr>
+                <td>@rate.Key </td>
+
+                <td>@rate.Value</td>
+
+
+            </tr>
+        }
+    </table>
+        @*Formirati tabelu... Dodati datum*@
+</div>
