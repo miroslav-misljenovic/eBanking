@@ -3,24 +3,23 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    
-    <table align="center">
-        <tr>
-            <th>Currency</th>
-            <th>Rate</th>
-        </tr>
-        @foreach (var rate in @Model.rates)
-        {
+    <div class="text-center">
+        <h1 class="display-4">Welcome</h1>
+        <label>Exchange rate list formed on @Model.date</label>
+
+        <table align="center">
             <tr>
-                <td>@rate.Key </td>
-
-                <td>@rate.Value</td>
-
-
+                <th>Currency</th>
+                <th>Rate</th>
             </tr>
-        }
-    </table>
-        @*Formirati tabelu... Dodati datum*@
-</div>
+            @foreach (var rate in @Model.rates)
+            {
+                <tr>
+                    <td>@rate.Key </td>
+
+                    <td>@rate.Value</td>
+
+                </tr>
+            }
+        </table>
+    </div>
