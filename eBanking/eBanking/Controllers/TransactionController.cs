@@ -1,6 +1,5 @@
 ﻿using eBanking.BusinessModels;
 using eBanking.Data;
-using eBanking.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -40,7 +39,7 @@ namespace eBanking.Controllers
             return View();
         }
 
-        public IActionResult SendMoney(Transaction transaction)
+        public IActionResult SendMoney(Models.Transaction transaction)
         {
             PopulateAccounts();
             string userId = _userManager.GetUserId(User);
