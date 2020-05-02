@@ -27,9 +27,9 @@ namespace eBanking.Controllers
                 .Include("Accounts.Currency")
                 .First(s => s.Id == userId);
             var currencies = user.Accounts.Select(a => a.Currency).ToList();
-            var accounts = user.Accounts.ToList();
+            //var accounts = user.Accounts.ToList();
 
-            ViewData["Accounts"] = accounts;
+            //ViewData["Accounts"] = accounts;
             ViewData["Currencies"] = new SelectList(currencies, "Id", "Name");
         }
         // GET: /<controller>/
@@ -47,7 +47,7 @@ namespace eBanking.Controllers
                 .Users
                 .Include("Accounts.Currency")
                 .First(s => s.Id == userId);
-
+            
             BankAccount from = user.Accounts.First(a => a.CurrencyId == transaction.SenderCurrencyId);
             BankAccount to = _dbContext
                 .BankAccounts
@@ -67,13 +67,23 @@ namespace eBanking.Controllers
                 ViewData["Message"] = "Not enough resources!";
                 return View("Index");
             }
+            if (_dbContext.Transactions
+                .Where(t => t.AccountFrom.Id == from.Id && t.Status == TransactionStatus.PENDING)
+                .Any())
+            {
+                ViewData["Message"] = "Already exists pending transaction from that bank account!";
+                return View("Index");
+            }
 
-            to.Balance += (decimal) transaction.Amount;
-            from.Balance -= (decimal) transaction.Amount;
-
+            Transaction t = new Transaction();
+            t.AccountFromId = from.Id;
+            t.AccountToId = to.Id;
+            t.Amount = transaction.Amount;
+            t.Status = TransactionStatus.PENDING;
+            _dbContext.Transactions.Add(t);
             _dbContext.SaveChanges();
-            ViewData["Message"] = "Transfer transaction completed!";
 
+            ViewData["Message"] = "Transfer transaction has been successfully forwarded to the manager!";
             return View("Index");
         }
 

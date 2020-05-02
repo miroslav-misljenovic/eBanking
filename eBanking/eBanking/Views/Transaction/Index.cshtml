@@ -21,11 +21,6 @@
             <label class="control-label"> Recipient account ID </label>
             <input asp-for="RecipientAccount" class="form-control" />
         </div>
-        @*
-        <form asp-action="SendMoney" method="post">
-            <button type="submit" class="btn btn-success"> Send </button>
-        </form>
-            *@
 
         <div class="form-group">
             <input asp-action="SendMoney" type="submit" value="Send" class="btn btn-success" />

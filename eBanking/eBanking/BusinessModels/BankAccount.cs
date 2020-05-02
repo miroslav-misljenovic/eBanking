@@ -1,4 +1,6 @@
-﻿namespace eBanking.BusinessModels
+﻿using System.Collections.Generic;
+
+namespace eBanking.BusinessModels
 {
     public class BankAccount
     {
@@ -8,5 +10,7 @@
         public int CurrencyId { get; set; }
         public Currency Currency { get; set; }
         public decimal Balance { get; set; }
+        public List<Transaction> TransactionsFrom { get; set; }
+        public List<Transaction> TransactionsTo { get; set; }
     }
 }
