@@ -10,8 +10,8 @@ using eBanking.Data;
 namespace eBanking.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200430172553_TransactionApproving")]
-    partial class TransactionApproving
+    [Migration("20200515160046_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -267,33 +267,32 @@ namespace eBanking.Migrations
                         new
                         {
                             Id = 1,
-                            Name = "RSD",
-                            Rate = 1.0
-                        },
-                        new
-                        {
-                            Id = 2,
                             Name = "EUR",
-                            Rate = 117.5
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "USD",
-                            Rate = 107.40000000000001
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Name = "RUB",
-                            Rate = 1.46
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Name = "GBP",
-                            Rate = 134.69999999999999
+                            Rate = 1.0
                         });
+                });
+
+            modelBuilder.Entity("eBanking.BusinessModels.CurrencyRateHistory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CurrencyId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<double>("Rate")
+                        .HasColumnType("float");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CurrencyId");
+
+                    b.ToTable("CurrencyRateHistory");
                 });
 
             modelBuilder.Entity("eBanking.BusinessModels.Transaction", b =>
@@ -387,6 +386,15 @@ namespace eBanking.Migrations
                         .WithMany("Accounts")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("eBanking.BusinessModels.CurrencyRateHistory", b =>
+                {
+                    b.HasOne("eBanking.BusinessModels.Currency", "Currency")
+                        .WithMany("History")
+                        .HasForeignKey("CurrencyId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("eBanking.BusinessModels.Transaction", b =>

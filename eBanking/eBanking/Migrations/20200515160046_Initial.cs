@@ -193,17 +193,59 @@ namespace eBanking.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "CurrencyRateHistory",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CurrencyId = table.Column<int>(nullable: false),
+                    Date = table.Column<DateTime>(nullable: false),
+                    Rate = table.Column<double>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CurrencyRateHistory", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CurrencyRateHistory_Currencies_CurrencyId",
+                        column: x => x.CurrencyId,
+                        principalTable: "Currencies",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Transactions",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    AccountFromId = table.Column<int>(nullable: false),
+                    AccountToId = table.Column<int>(nullable: false),
+                    Amount = table.Column<double>(nullable: false),
+                    Status = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Transactions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Transactions_BankAccounts_AccountFromId",
+                        column: x => x.AccountFromId,
+                        principalTable: "BankAccounts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Transactions_BankAccounts_AccountToId",
+                        column: x => x.AccountToId,
+                        principalTable: "BankAccounts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
             migrationBuilder.InsertData(
                 table: "Currencies",
                 columns: new[] { "Id", "Name", "Rate" },
-                values: new object[,]
-                {
-                    { 1, "RSD", 1.0 },
-                    { 2, "EUR", 117.5 },
-                    { 3, "USD", 107.40000000000001 },
-                    { 4, "RUB", 1.46 },
-                    { 5, "GBP", 134.69999999999999 }
-                });
+                values: new object[] { 1, "EUR", 1.0 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -253,6 +295,21 @@ namespace eBanking.Migrations
                 name: "IX_BankAccounts_UserId",
                 table: "BankAccounts",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CurrencyRateHistory_CurrencyId",
+                table: "CurrencyRateHistory",
+                column: "CurrencyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Transactions_AccountFromId",
+                table: "Transactions",
+                column: "AccountFromId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Transactions_AccountToId",
+                table: "Transactions",
+                column: "AccountToId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -273,10 +330,16 @@ namespace eBanking.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "BankAccounts");
+                name: "CurrencyRateHistory");
+
+            migrationBuilder.DropTable(
+                name: "Transactions");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "BankAccounts");
 
             migrationBuilder.DropTable(
                 name: "Currencies");

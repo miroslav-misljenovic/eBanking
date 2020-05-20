@@ -5,6 +5,8 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="//cdn.fusioncharts.com/fusioncharts/latest/fusioncharts.js"></script>
+    <script src="//cdn.fusioncharts.com/fusioncharts/latest/themes/fusioncharts.theme.fusion.js"></script>
     <title>@ViewData["Title"] - eBanking</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
@@ -37,15 +39,23 @@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Transaction" asp-action="Index">Transaction</a>
                             </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="ExchangeRate" asp-action="Index">Exchange rate</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Investment" asp-action="Index">Investment consluting</a>
+                            </li>
                         }
                         @if (User.IsInRole("Administrator"))
                         {
                             <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Tasks" asp-action="Index">Pending Tasks</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Tasks" asp-action="Index">Pending Tasks</a>
                             </li>
 
                         }
-                        </ul>
+                    </ul>
                 </div>
             </div>
         </nav>

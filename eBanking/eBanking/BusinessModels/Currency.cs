@@ -8,6 +8,6 @@ namespace eBanking.BusinessModels
         public string Name { get; set; }
         public List<BankAccount> Accounts { get; set; }
         public double Rate { get; set; }
-
+        public List<CurrencyRateHistory> History { get; set; }
     }
 }

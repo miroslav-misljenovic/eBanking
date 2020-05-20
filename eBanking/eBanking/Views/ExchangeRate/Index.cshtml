@@ -1,0 +1,40 @@
+﻿@model ExchangeRateRequest
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Exchange rate</h1>
+<div class="col-8">
+    <form method="post">
+        <div class="form-group">
+            <label class="control-label">
+                Insert for which date you want the exchange rate list:
+            </label>
+            <input type="date" asp-for="Date" class="form-control" />
+            <br/>
+            <input asp-action="GenerateList" type="submit" value="Generate" class="btn btn-success" />
+        </div>
+    </form>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Currency</th>
+                <th>Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (ViewBag.Rates != null)
+            {
+                @foreach (ExchangeRateOnDate history in ViewBag.Rates)
+                {
+                    <tr>
+                        <td> @history.Name </td>
+                        <td> @history.Rate </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+
+</div>

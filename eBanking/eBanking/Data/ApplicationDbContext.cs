@@ -9,6 +9,7 @@ namespace eBanking.Data
         public DbSet<Transaction> Transactions { get; set; }
         public DbSet<BankAccount> BankAccounts { get; set; }
         public DbSet<Currency> Currencies { get; set; }
+        public DbSet<CurrencyRateHistory> CurrencyRateHistory { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -36,11 +37,13 @@ namespace eBanking.Data
                 .HasForeignKey(t => t.AccountToId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<Currency>().HasData(new Currency { Id = 1, Name = "RSD", Rate = 1 });
-            modelBuilder.Entity<Currency>().HasData(new Currency { Id = 2, Name = "EUR", Rate = 117.5 });
-            modelBuilder.Entity<Currency>().HasData(new Currency { Id = 3, Name = "USD", Rate = 107.4 });
-            modelBuilder.Entity<Currency>().HasData(new Currency { Id = 4, Name = "RUB", Rate = 1.46 });
-            modelBuilder.Entity<Currency>().HasData(new Currency { Id = 5, Name = "GBP", Rate = 134.7 });
+            modelBuilder.Entity<CurrencyRateHistory>()
+                .HasOne(t => t.Currency)
+                .WithMany(s => s.History)
+                .HasForeignKey(t => t.CurrencyId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Currency>().HasData(new Currency { Id = 1, Name = "EUR", Rate = 1 });
 
             base.OnModelCreating(modelBuilder);
 
