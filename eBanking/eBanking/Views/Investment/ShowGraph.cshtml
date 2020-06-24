@@ -1,0 +1,8 @@
+﻿@model ChartDataString
+
+@{
+    ViewData["Title"] = "ShowGraph";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Html.Raw(Model.ChartJson)

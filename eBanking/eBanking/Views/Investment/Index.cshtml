@@ -1,9 +1,67 @@
 ﻿@model InvestmentChart
 @{
-    ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+	ViewData["Title"] = "Index";
+	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<h1>Investment consulting</h1>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+<div class="row col-md-12">
+	<div class="row col-md-4">
+		<form method="post">
+			<div class="form-group">
+				<label class="control-label"> Select first currency </label>
+				<select asp-for="FirstCurrency" class="form-control" asp-items="ViewBag.Currencies"></select>
+			</div>
 
-@Html.Raw(Model.ChartJson)
+			<div class="form-group">
+				<label class="control-label"> Select second currency </label>
+				<select asp-for="SecondCurrency" class="form-control" asp-items="ViewBag.Currencies"></select>
+			</div>
+
+			<div class="form-group">
+				<label class="control-label"> Select starting date </label>
+				<input type="date" min="2020-01-01" max="@ViewBag.Today" asp-for="StartingDate" class="form-control">
+			</div>
+
+			<div class="form-group">
+				<label class="control-label"> Select ending date </label>
+				<input type="date" min="@ViewBag.Today" asp-for="EndingDate" class="form-control">
+			</div>
+
+			<script>
+				$(document).ready(function () {
+					$('input[type=radio][name=RadioResponse]').change(function () {
+                        if (this.value == 'ExponentialSmoothing') {
+                            $('#alpha').fadeIn();
+                        } else {
+                            $('#alpha').fadeOut();
+                        }
+					});
+                });
+			</script>
+
+			<div id="alpha" class="form-group" style="display:none">
+				<label class="control-label"> Select alpha parameter for exponential smoothing (0, 1) </label>
+				<input asp-for="Alpha" class="form-control">
+			</div>
+
+			<div class="form-group">
+				@Html.RadioButton("RadioResponse", "LinearPrediction") Linear prediction<br />
+				@Html.RadioButton("RadioResponse", "LinearRegression") Linear regression<br />
+				@Html.RadioButton("RadioResponse", "ExponentialSmoothing") Exponential smoothing
+			</div>
+
+			<div class="form-group">
+				<input asp-action="ShowGraph" type="submit" value="Show Graph" class="btn btn-success" />
+			</div>
+		</form>
+	</div>
+	<div class="row col-md-8">
+		@if (ViewData["ChartJson"] != null)
+		{
+			@Html.Raw(ViewData["ChartJson"])
+		}
+	</div>
+</div>	

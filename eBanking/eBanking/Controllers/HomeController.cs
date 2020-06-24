@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using eBanking.Models;
 using System.Net.Http;
 using eBanking.BusinessModels;
@@ -15,25 +13,37 @@ namespace eBanking.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly int EUR_ID = 1;
         private readonly ApplicationDbContext _dbContext;
-        private readonly UserManager<ApplicationUser> _userManager;
-
-        public HomeController(ApplicationDbContext dbContext, UserManager<ApplicationUser> userManager)
+               
+        public HomeController(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
-            _userManager = userManager;
         }
 
         public IActionResult Index()
         {
-            CurrencyRates cr = RefreshRates();
+            RefreshRates();
+
+            CurrencyRates cr = new CurrencyRates { rates = new Dictionary<string, double>() };
+
+            using (var httpClient = new HttpClient()) 
+            {
+                try {
+                    var response = httpClient.GetAsync("https://api.exchangeratesapi.io/latest").Result;
+                    var a = response.Content.ReadAsStringAsync().Result;
+                    cr = Newtonsoft.Json.JsonConvert.DeserializeObject<CurrencyRates>(a);
+                    cr.date = DateTimeToString(DateTime.Today);
+                }
+                catch (Exception ex) { }
+                
+            }
             return View(cr);
         }
 
-        public CurrencyRates RefreshRates()
+        public void RefreshRates()
         {
-            CurrencyRates cr = new CurrencyRates { rates = new Dictionary<string, double>() };
-            DateTime start = new DateTime(2020, 01, 01);
+            DateTime start = new DateTime(2020, 1, 1);
             var lastDate = _dbContext.CurrencyRateHistory.OrderBy(x => x.Date).LastOrDefault();
             if (lastDate != null)
             {
@@ -46,11 +56,10 @@ namespace eBanking.Controllers
                 {
                     try
                     {
-                        var dayString = day.Year + "-" + day.Month + "-" + day.Day;
+                        var dayString = DateTimeToString(day);
                         var response = httpClient.GetAsync("https://api.exchangeratesapi.io/" + dayString).Result;
                         var a = response.Content.ReadAsStringAsync().Result;
                         var rates = Newtonsoft.Json.JsonConvert.DeserializeObject<CurrencyRates>(a);
-                        cr = rates;
                         foreach (var c in rates.rates)
                         {
                             var currency = _dbContext.Currencies.SingleOrDefault(x => x.Name == c.Key);
@@ -60,32 +69,43 @@ namespace eBanking.Controllers
                                 _dbContext.Currencies.Add(currency);
                                 _dbContext.SaveChanges();
                             }
-                            if (rates.date == DateTime.Today.ToString("yyyy-MM-dd"))
+                            if (dayString == DateTime.Today.ToString("yyyy-MM-dd"))
                             {
                                 currency.Rate = c.Value;
                             }
-                            DateTime date = StringToDateTime(rates.date);
+
                             if (!_dbContext.CurrencyRateHistory.AsEnumerable()
-                                .Any(x => x.CurrencyId == currency.Id && x.Date.ToString("yyyy-MM-dd") == rates.date))
+                                .Any(x => (x.CurrencyId == currency.Id) && (x.Date.ToString("yyyy-MM-dd") == dayString)))
                             {
                                 _dbContext.CurrencyRateHistory.Add(new CurrencyRateHistory
                                 {
                                     CurrencyId = currency.Id,
-                                    Date = date,
+                                    Date = StringToDateTime(dayString),
                                     Rate = c.Value,
                                 });
                             }
+
+                        }
+
+                        if (!_dbContext.CurrencyRateHistory.AsEnumerable()
+                                .Any(x => (x.CurrencyId == EUR_ID) && (x.Date.ToString("yyyy-MM-dd") == dayString)))
+                        {
+                            _dbContext.CurrencyRateHistory.Add(new CurrencyRateHistory
+                            {
+                                CurrencyId = EUR_ID,
+                                Date = StringToDateTime(dayString),
+                                Rate = 1,
+                            });
                         }
                         _dbContext.SaveChanges();
                     }
                     catch (Exception ex)
-                    { 
-                        
+                    {
+
                     }
                 }
             }
-            return cr;
-        }
+        }       
 
         public IEnumerable<DateTime> EachDay(DateTime from, DateTime thru)
         {
@@ -97,6 +117,13 @@ namespace eBanking.Controllers
         {
             string[] temp = input.Split('-');
             return new DateTime(int.Parse(temp[0]), int.Parse(temp[1]), int.Parse(temp[2]));
+        }
+
+        private string DateTimeToString(DateTime date)
+        {
+            string month = date.Month > 9 ? $"{date.Month}" : $"0{date.Month}";
+            string day = date.Day > 9 ? $"{date.Day}" : $"0{date.Day}";
+            return $"{date.Year}-{month}-{day}";
         }
 
         public IActionResult Privacy()

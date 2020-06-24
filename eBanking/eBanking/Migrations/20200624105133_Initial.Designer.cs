@@ -10,7 +10,7 @@ using eBanking.Data;
 namespace eBanking.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200515160046_Initial")]
+    [Migration("20200624105133_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
