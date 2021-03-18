@@ -6,10 +6,15 @@ namespace eBanking.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-        public DbSet<Transaction> Transactions { get; set; }
-        public DbSet<BankAccount> BankAccounts { get; set; }
-        public DbSet<Currency> Currencies { get; set; }
-        public DbSet<CurrencyRateHistory> CurrencyRateHistory { get; set; }
+        public ApplicationDbContext()
+        {
+
+        }
+
+        public virtual DbSet<Transaction> Transactions { get; set; }
+        public virtual DbSet<BankAccount> BankAccounts { get; set; }
+        public virtual DbSet<Currency> Currencies { get; set; }
+        public virtual DbSet<CurrencyRateHistory> CurrencyRateHistory { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29806.167
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eBanking", "eBanking\eBanking.csproj", "{0FD60841-D01E-458B-83AF-580311A5492E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eBanking", "eBanking\eBanking.csproj", "{0FD60841-D01E-458B-83AF-580311A5492E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eBanking.Tests", "eBanking.Tests\eBanking.Tests.csproj", "{F88AD221-71F4-4135-8300-D5E3A0299A87}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{0FD60841-D01E-458B-83AF-580311A5492E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0FD60841-D01E-458B-83AF-580311A5492E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0FD60841-D01E-458B-83AF-580311A5492E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F88AD221-71F4-4135-8300-D5E3A0299A87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F88AD221-71F4-4135-8300-D5E3A0299A87}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F88AD221-71F4-4135-8300-D5E3A0299A87}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F88AD221-71F4-4135-8300-D5E3A0299A87}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

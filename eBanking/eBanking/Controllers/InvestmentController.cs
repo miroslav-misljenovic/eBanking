@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using System;
 using Microsoft.EntityFrameworkCore;
+using eBanking.BusinessModels;
 
 namespace eBanking.Controllers
 {
@@ -22,9 +23,14 @@ namespace eBanking.Controllers
             _dbContext = dbContext;
         }
 
-        private void PopulateCurrencies()
+        public List<Currency> GetCurrencyList()
         {
-            var currencies = _dbContext.Currencies.ToList();
+            return _dbContext.Currencies.ToList();
+        }
+
+        public void PopulateCurrencies()
+        {
+            var currencies = GetCurrencyList();
             ViewData["Currencies"] = new SelectList(currencies.OrderBy(x => x.Name), "Id", "Name");
             ViewData["Today"] = DateTime.Today.ToString("yyyy-MM-dd");
         }

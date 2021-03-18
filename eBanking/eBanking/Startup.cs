@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using eBanking.BusinessModels;
+using eBanking.Services;
 
 namespace eBanking
 {
@@ -25,6 +26,8 @@ namespace eBanking
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
+            services.AddScoped<IDateService>(s => new DateService());
+            services.AddScoped<ICurrencyRateService, CurrencyRateService>();
             services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
