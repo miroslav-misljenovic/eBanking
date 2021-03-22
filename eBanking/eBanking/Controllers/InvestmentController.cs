@@ -20,7 +20,7 @@ namespace eBanking.Controllers
 
         public InvestmentController(ApplicationDbContext dbContext)
         {
-            _dbContext = dbContext;
+            _dbContext = dbContext ?? throw new ArgumentException(nameof(dbContext));
         }
 
         public List<Currency> GetCurrencyList()

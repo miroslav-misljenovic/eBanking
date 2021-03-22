@@ -6,16 +6,39 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using eBanking.Data;
 using eBanking.BusinessModels;
+using Serilog;
 
 namespace eBanking
 {
     public class Program
     {
         public static void Main(string[] args)
-        {
+        {            
+             Log.Logger = new LoggerConfiguration()
+            .Enrich.FromLogContext()
+            .WriteTo.Console()
+            .CreateLogger();
+        
+            try
+            {
+                Log.Information("Starting up");
+                var host = CreateHostBuilder(args).Build();
+                SetupData(host);
+                host.Run();
+            }
+            catch (Exception ex)
+            {
+                Log.Fatal(ex, "Application start-up failed");
+            }
+            finally
+            {
+                Log.CloseAndFlush();
+            }
+            /* 
             var host = CreateHostBuilder(args).Build();
             SetupData(host);
             host.Run();
+            */
         }
         private static void SetupData(IHost host)
         {
@@ -76,6 +99,7 @@ namespace eBanking
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+                .UseSerilog()
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();

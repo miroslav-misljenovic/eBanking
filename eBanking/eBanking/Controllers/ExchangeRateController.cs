@@ -5,8 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace eBanking.Controllers
 {
     public class ExchangeRateController : Controller
@@ -14,7 +12,7 @@ namespace eBanking.Controllers
         private readonly ApplicationDbContext _dbContext;
         public ExchangeRateController(ApplicationDbContext dbContext)
         {
-            _dbContext = dbContext;
+            _dbContext = dbContext ?? throw new ArgumentException(nameof(dbContext));
         }
         public IActionResult Index()
         {

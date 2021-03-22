@@ -1,13 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using eBanking.Models;
-using System.Net.Http;
-using eBanking.BusinessModels;
-using eBanking.Data;
-using Microsoft.AspNetCore.Identity;
 using eBanking.Services;
 
 namespace eBanking.Controllers

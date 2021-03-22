@@ -3,6 +3,7 @@ using eBanking.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 
 namespace eBanking.Controllers
@@ -14,11 +15,10 @@ namespace eBanking.Controllers
 
         public TasksController(ApplicationDbContext dbContext, UserManager<ApplicationUser> userManager)
         {
-            _dbContext = dbContext;
-            _userManager = userManager;
+            _dbContext = dbContext ?? throw new ArgumentException(nameof(dbContext));
+            _userManager = userManager ?? throw new ArgumentException(nameof(userManager));
 
         }
-
         private void PopulateTasks()
         {
             //string userId = _userManager.GetUserId(User);
