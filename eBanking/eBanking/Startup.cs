@@ -8,7 +8,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using eBanking.BusinessModels;
 using eBanking.Services;
-using Serilog;
 
 namespace eBanking
 {
@@ -29,8 +28,6 @@ namespace eBanking
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddScoped<IDateService>(s => new DateService());
             services.AddScoped<ICurrencyRateService, CurrencyRateService>();
-            services.AddScoped<IChartService, ChartService>();
-            services.AddScoped<IExchangeRatesService, ExchangeRatesService>();
             services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
@@ -56,9 +53,7 @@ namespace eBanking
             app.UseStaticFiles();
 
             app.UseRouting();
-            //
-            app.UseSerilogRequestLogging();
-            //
+
             app.UseAuthentication();
             app.UseAuthorization();
 

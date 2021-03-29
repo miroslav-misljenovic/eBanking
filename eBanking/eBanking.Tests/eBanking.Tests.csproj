@@ -26,4 +26,8 @@
     <ProjectReference Include="..\eBanking\eBanking.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Services\CurrencyRateService\" />
+  </ItemGroup>
+
 </Project>

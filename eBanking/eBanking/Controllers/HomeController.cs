@@ -8,21 +8,28 @@ namespace eBanking.Controllers
 {
     public class HomeController : Controller
     {
+        // ovaj se brise kad se svi prebace na servise
+        private readonly IDateService _dateService;
         private readonly ICurrencyRateService _currencyRateService;
-        public HomeController(
+
+        public HomeController(IDateService dateService,
             ICurrencyRateService currencyRateService)
         {
+            _dateService = dateService ?? throw new ArgumentException(nameof(dateService));
             _currencyRateService = currencyRateService ?? throw new ArgumentException(nameof(currencyRateService));
         }
+
         public IActionResult Index()
         {
             CurrencyRates cr = _currencyRateService.GetCurrencyRate();
             return View(cr);
         }
+
         public IActionResult Privacy()
         {
             return View();
         }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

@@ -10,6 +10,7 @@ namespace eBanking.Services
             for (var day = from.Date; day.Date <= thru.Date; day = day.AddDays(1))
                 yield return day;
         }
+
         public DateTime StringToDateTime(string input)
         {
             string[] temp = input.Split('-');
