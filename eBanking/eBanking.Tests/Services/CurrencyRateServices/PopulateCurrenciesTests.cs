@@ -3,9 +3,9 @@ using Xunit;
 using Moq;
 using eBanking.BusinessModels;
 using eBanking.Data;
-using eBanking.Controllers;
+using eBanking.Services;
 
-namespace eBanking.Tests.Controllers.InvestmentControllerA
+namespace eBanking.Tests.Services.CurrencyRateServices
 {
     public class PopulateCurrenciesTests
     {
@@ -29,10 +29,10 @@ namespace eBanking.Tests.Controllers.InvestmentControllerA
             var myDbMoq = new Mock<ApplicationDbContext>();
             myDbMoq.Setup(p => p.Currencies).Returns(
                 DbContextMock.GetQueryableMockDbSet<Currency>(entities));
-            myDbMoq.Setup(p => p.SaveChanges()).Returns(1);
-            InvestmentController iCon = new InvestmentController(myDbMoq.Object);
+            myDbMoq.Setup(p => p.SaveChanges()).Returns(2);
+            CurrencyRateService crs = new CurrencyRateService(myDbMoq.Object, new DateService());
             
-            var ret = iCon.GetCurrencyList();
+            var ret = crs.GetCurrencyList();
             
             Assert.NotNull(ret);
             Assert.True(ret.Exists(x => x.Id == 1 && x.Name.Equals("MIKI") && x.Rate == -3.5), "Nepostojeci element");

@@ -1,23 +1,25 @@
 using System;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using eBanking.Data;
 using eBanking.BusinessModels;
 using Serilog;
+using Serilog.Formatting.Compact;
+using Serilog.Events;
 
 namespace eBanking
 {
     public class Program
     {
         public static void Main(string[] args)
-        {            
-             Log.Logger = new LoggerConfiguration()
-            .Enrich.FromLogContext()
-            .WriteTo.Console()
-            .CreateLogger();
+        {
+            Log.Logger = new LoggerConfiguration()
+                .Enrich.FromLogContext()
+                .WriteTo.File(new RenderedCompactJsonFormatter(), @"D:\eBanking\eBanking\eBanking\LoggerFile.json")
+                .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning)
+                .CreateLogger();           
         
             try
             {
@@ -32,13 +34,9 @@ namespace eBanking
             }
             finally
             {
+                Log.Information("CloseAndFlush");
                 Log.CloseAndFlush();
             }
-            /* 
-            var host = CreateHostBuilder(args).Build();
-            SetupData(host);
-            host.Run();
-            */
         }
         private static void SetupData(IHost host)
         {
@@ -53,8 +51,7 @@ namespace eBanking
                 }
                 catch (Exception ex)
                 {
-                    var logger = services.GetRequiredService<ILogger<Program>>();
-                    logger.LogError(ex, "An error occurred creating the DB.");
+                    Log.Fatal(ex, "An error occurred creating the DB.");
                 }
             }
         }
@@ -96,7 +93,6 @@ namespace eBanking
                 }
             }
         }
-
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
                 .UseSerilog()
