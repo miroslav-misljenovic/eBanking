@@ -1,5 +1,4 @@
-﻿
-namespace eBanking.Models
+﻿namespace eBanking.Models
 {
     public class ExchangeRateOnDate
     {

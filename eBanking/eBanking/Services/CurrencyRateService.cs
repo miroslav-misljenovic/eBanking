@@ -5,8 +5,7 @@ using eBanking.Models;
 using System.Net.Http;
 using eBanking.BusinessModels;
 using eBanking.Data;
-//using Serilog;
-using Microsoft.Extensions.Logging;
+using Serilog;
 
 namespace eBanking.Services
 {
@@ -16,18 +15,12 @@ namespace eBanking.Services
 
         private readonly ApplicationDbContext _dbContext;
         private readonly IDateService _dateService;
-        private readonly ILogger<CurrencyRateService> _logger;
-
-
         public CurrencyRateService(ApplicationDbContext dbContext,
-            IDateService dateService,
-            ILogger<CurrencyRateService> logger)
+            IDateService dateService)
         {
             _dbContext = dbContext ?? throw new ArgumentException(nameof(dbContext));
             _dateService = dateService ?? throw new ArgumentException(nameof(dateService));
-            _logger = logger ?? throw new ArgumentException(nameof(logger));
         }
-
         public CurrencyRates GetCurrencyRate()
         {
             RefreshRates();
@@ -37,7 +30,7 @@ namespace eBanking.Services
             {
                 try
                 {
-                    var response = httpClient.GetAsync("https://api.exchangeratesapi.io/lates").Result;
+                    var response = httpClient.GetAsync("https://api.exchangeratesapi.io/latest").Result;
                     var a = response.Content.ReadAsStringAsync().Result;
                     cr = Newtonsoft.Json.JsonConvert.DeserializeObject<CurrencyRates>(a);
                     cr.date = _dateService.DateTimeToString(DateTime.Today);
@@ -45,15 +38,11 @@ namespace eBanking.Services
                 catch (Exception ex)
                 {
                     // logovati sve ovakve stvari
-                    _logger.LogError(ex, "An error occurred trying to connect to external service for currency rates.");
-                    
+                    Log.Information(ex, "CATHED ERROR: External service not responding!");
                 }
-
             }
-
             return cr;
         }
-
         public void RefreshRates()
         {
             DateTime start = new DateTime(2021, 3, 1);
@@ -114,12 +103,14 @@ namespace eBanking.Services
                     }
                     catch (Exception ex)
                     {
-                        _logger.LogError(ex, "An error occurred in EachDay loop.");
-
+                        Log.Fatal(ex, "CATHED ERROR: EachDay method failure!");
                     }
                 }
             }
         }
-
+        public List<Currency> GetCurrencyList()
+        {
+            return _dbContext.Currencies.ToList();
+        }
     }
 }
