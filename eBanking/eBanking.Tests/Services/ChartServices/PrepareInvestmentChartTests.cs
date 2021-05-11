@@ -81,8 +81,6 @@ namespace eBanking.Tests.Services.ChartServices
 
             Assert.Contains("\"dataSource\":{\"chart\":{\"xAxisName\":\"Date\",\"pYAxisName\":\"DINAR\",\"sYAxisName\":\"EURO\",\"caption\":\"Investment consulting\",\"theme\":\"fusion\"},\"categories\":[{\"category\":[{\"label\":\"23.03.2021\"},{\"label\":\"24.03.2021\"}]}],\"dataset\":[{\"seriesname\":\"FirstCurrencyValue\",\"renderAs\":\"line\",\"data\":[{\"value\":\"322\"},{\"value\":\"522\"}]},{\"seriesname\":\"SecondCurrencyValue\",\"renderAs\":\"line\",\"parentYAxis\":\"S\",\"data\":[{\"value\":\"222.00000000000003\"},{\"value\":\"422\"}]},{\"seriesname\":\"ThirdCurrencyValue\",\"renderAs\":\"column\",\"data\":[{\"value\":\"0\"},{\"value\":\"522\"}]}"
                 , chart);
-            //Assert.True(combiChart.Data.Source.Data.Rows.Count == 8);
-
         }
     }
 }

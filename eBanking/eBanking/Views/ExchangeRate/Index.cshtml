@@ -9,11 +9,11 @@
     <form method="post">
         <div class="form-group">
             <label class="control-label">
-                Insert for which date you want the exchange rate list:
+                Insert for which date you want the exchange rate list in format YYYY-MM-DD:
             </label>
-            <input type="date" min="2020-01-01" asp-for="Date" class="form-control" />
+            <input type="text" min="2020-01-01" asp-for="Date" class="form-control" />
             <br/>
-            <input asp-action="GenerateList" type="submit" value="Load" class="btn btn-success" />
+            <input id="Load" asp-action="GenerateList" type="submit" value="Load" class="btn btn-success" />
         </div>
     </form>
     <table class="table table-bordered table-striped">

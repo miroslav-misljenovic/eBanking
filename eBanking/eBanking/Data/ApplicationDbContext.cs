@@ -10,7 +10,6 @@ namespace eBanking.Data
         {
 
         }
-
         public virtual DbSet<Transaction> Transactions { get; set; }
         public virtual DbSet<BankAccount> BankAccounts { get; set; }
         public virtual DbSet<Currency> Currencies { get; set; }

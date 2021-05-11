@@ -30,10 +30,10 @@ namespace eBanking.Controllers
             PopulateCurrencies();
             var investmentChart = new InvestmentChart
             {
-                FirstCurrency = 3,
-                SecondCurrency = 14,
-                StartingDate = DateTime.Now.AddDays(-90),
-                EndingDate = DateTime.Now.AddDays(60),
+                FirstCurrency = 153,
+                SecondCurrency = 21,
+                StartingDate = DateTime.Now.AddDays(-70),
+                EndingDate = DateTime.Now.AddDays(30),
                 RadioResponse = "LinearRegression",
                 Alpha = 0.5
             };            

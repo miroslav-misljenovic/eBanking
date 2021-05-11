@@ -30,7 +30,10 @@ namespace eBanking.Services
             {
                 try
                 {
-                    var response = httpClient.GetAsync("https://api.exchangeratesapi.io/latest").Result;
+                    var response = httpClient
+                        //.GetAsync("http://api.exchangeratesapi.io/latest?access_key=1321df5586167c5aef4b48e9a5f48100") MM
+                        .GetAsync("http://api.exchangeratesapi.io/latest?access_key=e679628e9639d0e7a2978ae3c8334092") // ZZ
+                        .Result;
                     var a = response.Content.ReadAsStringAsync().Result;
                     cr = Newtonsoft.Json.JsonConvert.DeserializeObject<CurrencyRates>(a);
                     cr.date = _dateService.DateTimeToString(DateTime.Today);
@@ -45,7 +48,7 @@ namespace eBanking.Services
         }
         public void RefreshRates()
         {
-            DateTime start = new DateTime(2021, 3, 1);
+            DateTime start = new DateTime(2021, 5, 1);
             var lastDate = _dbContext.CurrencyRateHistory.OrderBy(x => x.Date).LastOrDefault();
             if (lastDate != null)
             {
@@ -59,10 +62,13 @@ namespace eBanking.Services
                     try
                     {
                         var dayString = _dateService.DateTimeToString(day);
-                        var response = httpClient.GetAsync("https://api.exchangeratesapi.io/" + dayString).Result;
+                        var response = httpClient
+                            //.GetAsync("http://api.exchangeratesapi.io/"+ dayString + "?access_key=1321df5586167c5aef4b48e9a5f48100") // MM
+                            .GetAsync("http://api.exchangeratesapi.io/"+ dayString + "?access_key=e679628e9639d0e7a2978ae3c8334092") // ZZ
+                            .Result;
                         var a = response.Content.ReadAsStringAsync().Result;
                         var rates = Newtonsoft.Json.JsonConvert.DeserializeObject<CurrencyRates>(a);
-                        foreach (var c in rates.rates)
+                        foreach (var c in rates.rates.Where(a => a.Key != "EUR"))
                         {
                             var currency = _dbContext.Currencies.SingleOrDefault(x => x.Name == c.Key);
                             if (currency == null)
