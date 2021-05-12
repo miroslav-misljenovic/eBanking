@@ -40,10 +40,8 @@ namespace eBanking.Tests.Services.ExchangeRatesServices
 
             var ret = ers.PrepareRates(
                 new ExchangeRateRequest{Date = new DateTime(2021, 03, 28)});
-            //var expected = new ExchangeRateOnDate { Name = "CAD", Rate = 88.00 };
                         
             Assert.True(ret.Exists(x => x.Rate == 88.00 & x.Name.Equals("CAD")));
-            //Assert.Contains(expected, ret); ?? FAILURE
         }
     }
 }
