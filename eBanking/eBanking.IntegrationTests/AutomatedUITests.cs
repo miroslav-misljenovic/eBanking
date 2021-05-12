@@ -14,7 +14,7 @@ namespace eBanking.IntegrationTests
         }
 
         // Start application without debugging (CTRL + F5)
-        /*
+        
         [Fact]
         public void ExchangeRateIndexTest()
         {
@@ -34,8 +34,8 @@ namespace eBanking.IntegrationTests
                 .Click();
             Assert.Contains("HTG", _driver.PageSource);
             Assert.Contains("94.236046", _driver.PageSource);
-        }*/
-
+        }
+        /*
         [Fact]
         public void LissTest() 
         {
@@ -43,7 +43,7 @@ namespace eBanking.IntegrationTests
                 .GoToUrl("http://liss.matf.bg.ac.rs:5001/");
             Assert.Equal("Home Page - HelloWorld", _driver.Title);
             Assert.Contains("Hello World 123!!!", _driver.PageSource);
-        }
+        }*/
         public void Dispose()
         {
             _driver.Quit();
