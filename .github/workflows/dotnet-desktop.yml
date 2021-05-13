@@ -39,3 +39,10 @@ jobs:
     # Execute all unit tests in the solution
     - name: Execute unit tests
       run: dotnet test eBanking\eBanking.Tests
+      
+    - name: vstest-solution-action
+    # You may pin to the exact commit or the version.
+    # uses: tonyhallett/vstest-solution-action@c2962417949c04d7ae86c78890532837200f8633
+      uses: tonyhallett/vstest-solution-action@v1.0.0
+      with:
+        solution: eBanking\eBanking.sln
