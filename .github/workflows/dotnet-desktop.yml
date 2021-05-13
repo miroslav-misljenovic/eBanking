@@ -26,9 +26,6 @@ jobs:
     # Add  MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
     - name: Setup MSBuild.exe
       uses: microsoft/setup-msbuild@v1
-    
-    - name: Setup VSTest
-      uses: darenm/Setup-VSTest@v1
   
     - name: Setup NuGet
       uses: NuGet/setup-nuget@v1.0.5
@@ -40,10 +37,9 @@ jobs:
       run: msbuild eBanking\eBanking.sln        
         
     # Execute all unit tests in the solution
-    #- name: Execute unit tests
-    #  run: dotnet test eBanking\eBanking.Tests
+    - name: Execute unit tests
+      run: dotnet test eBanking\eBanking.Tests
       
-    - name: vs test solution
-      uses: tonyhallett/vstest-solution-action@v1.0.0
-      with:
-        solution: eBanking\eBanking.sln
+    # Execute all integration tests in the solution
+    - name: Execute integration tests
+      run: dotnet test eBanking\eBanking.IntegrationTests
