@@ -47,4 +47,3 @@ jobs:
       uses: tonyhallett/vstest-solution-action@v1.0.0
       with:
         solution: eBanking\eBanking.sln
-        configuration: Release
