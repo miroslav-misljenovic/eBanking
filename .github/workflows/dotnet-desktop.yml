@@ -37,8 +37,8 @@ jobs:
       run: msbuild eBanking\eBanking.sln        
         
     # Execute all unit tests in the solution
-    - name: Execute unit tests
-      run: dotnet test eBanking\eBanking.Tests
+    #- name: Execute unit tests
+    #  run: dotnet test eBanking\eBanking.Tests
       
     - name: vstest-solution-action
     # You may pin to the exact commit or the version.
