@@ -48,10 +48,10 @@ jobs:
   
     - name: dotnet publish 
       run: |
-        dotnet publish -c Release -o ./eBankingPublish
-        rm ./eBankingPublish/appsettings.json
+        dotnet publish -c Release -o ./eBanking        
         mkdir downloads
-        cp -R ./eBankingPublish/* ./downloads
+        cp -R ./eBanking/* ./downloads
+        rm ./downloads/eBanking/appsettings.json
     
     - name: Copy folder content recursively to remote
       uses: garygrossgarten/github-action-scp@v0.7.3
