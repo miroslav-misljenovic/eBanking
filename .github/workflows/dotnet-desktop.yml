@@ -10,8 +10,7 @@ jobs:
 
   build:
 
-    runs-on: [windows-latest]  # For a list of available runner types, refer to
-                             # https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
+    runs-on: [ubuntu-latest]  
      
     steps:
     - name: Checkout
@@ -24,22 +23,52 @@ jobs:
         dotnet-version: 5.0.x
 
     # Add  MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
-    - name: Setup MSBuild.exe
-      uses: microsoft/setup-msbuild@v1
+   # - name: Setup MSBuild.exe
+   #   uses: microsoft/setup-msbuild@v1
   
     - name: Setup NuGet
       uses: NuGet/setup-nuget@v1.0.5
       
     - name: Restore NuGet packages
-      run: nuget restore eBanking\eBanking.sln
+      run: nuget restore eBanking/eBanking.sln
       
-    - name: Build the Solution
-      run: msbuild eBanking\eBanking.sln        
-        
+   # - name: Build the Solution
+   #   run: msbuild eBanking\eBanking.sln        
+
+    - name: Build with dotnet
+      run: dotnet build --configuration Release ./eBankingPublish    
+
     # Execute all unit tests in the solution
     - name: Execute unit tests
-      run: dotnet test eBanking\eBanking.Tests
+      run: dotnet test eBanking/eBanking.Tests
       
     # Execute all integration tests in the solution
     - name: Execute integration tests
-      run: dotnet test eBanking\eBanking.IntegrationTests
+      run: dotnet test eBanking/eBanking.IntegrationTests
+  
+    - name: dotnet publish 
+      run: |
+        dotnet publish -c Release -o ./eBankingPublish
+        rm ./eBankingPublish/appsettings.json
+        mkdir downloads
+        cp -R ./eBankingPublish/* ./downloads
+    
+    - name: Copy folder content recursively to remote
+      uses: garygrossgarten/github-action-scp@v0.7.3
+      with:
+          local: './downloads'
+          remote: '/home/miki/eBanking/'
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          
+    - name: Run SSH command
+      uses: garygrossgarten/github-action-ssh@v0.6.3
+      with:
+        command: |
+          cd /home/miki/eBanking/
+          killall screen
+          screen -d -m dotnet eBanking.dll --urls="http://*:5001/"          
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USERNAME }}
+        password: ${{ secrets.SSH_PASSWORD }}
