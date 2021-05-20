@@ -43,8 +43,8 @@ jobs:
       run: dotnet test eBanking/eBanking.Tests
       
     # Execute all integration tests in the solution
-    - name: Execute integration tests
-      run: dotnet test eBanking/eBanking.IntegrationTests
+   # - name: Execute integration tests
+   #   run: dotnet test eBanking/eBanking.IntegrationTests
   
     - name: dotnet publish 
       run: |
@@ -68,7 +68,7 @@ jobs:
         command: |
           cd /home/miki/eBanking/
           killall screen
-          screen -d -m dotnet eBanking.dll --urls="http://*:5001/"          
+          screen -d -m dotnet eBanking.dll          
         host: ${{ secrets.SSH_HOST }}
         username: ${{ secrets.SSH_USERNAME }}
         password: ${{ secrets.SSH_PASSWORD }}
