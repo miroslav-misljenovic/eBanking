@@ -36,7 +36,7 @@ jobs:
    #   run: msbuild eBanking\eBanking.sln        
 
     - name: Build with dotnet
-      run: dotnet build --configuration Release ./eBankingPublish    
+      run: dotnet build --configuration Release ./eBanking    
 
     # Execute all unit tests in the solution
     - name: Execute unit tests
