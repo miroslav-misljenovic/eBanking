@@ -48,9 +48,10 @@ jobs:
   
     - name: dotnet publish 
       run: |
-        dotnet publish -c Release -o ./eBanking        
+        ls -a
+        dotnet publish -c Release -o ./eBanking/eBanking/    
         mkdir downloads
-        cp -R ./eBanking/* ./downloads
+        cp -R ./eBanking/eBanking/* ./downloads
         rm ./downloads/eBanking/appsettings.json
     
     - name: Copy folder content recursively to remote
