@@ -10,7 +10,10 @@ namespace eBanking.IntegrationTests
         private readonly IWebDriver _driver;
         public AutomatedUITests()
         {
-            _driver = new ChromeDriver();
+            ChromeOptions options = new ChromeOptions();
+            options.AddArgument("--no-sandbox");
+            options.AddArgument("--disable-dev-shm-usage");
+            _driver = new ChromeDriver(options);
         }
 
         // Start application without debugging (CTRL + F5)
