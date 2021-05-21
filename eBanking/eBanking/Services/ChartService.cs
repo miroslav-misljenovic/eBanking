@@ -169,6 +169,7 @@ namespace eBanking.Services
 
             string json = JsonConvert.SerializeObject(_data.ToArray());
             string filePath = @"D:\eBanking\eBanking\eBanking\investmentChartData.json";
+            //string filePath = "investmentChartData.json";
             if (!System.IO.File.Exists(filePath))
             {
                 var fs = System.IO.File.Create(filePath);

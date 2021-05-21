@@ -99,8 +99,8 @@ namespace eBanking
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                    /*webBuilder.UseUrls("http://*:5000");
-                    webBuilder.UseIIS();*/
+                    webBuilder.UseUrls("http://*:5000");
+                    /*webBuilder.UseIIS();*/
                 });
     }
 }

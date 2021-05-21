@@ -32,7 +32,8 @@ namespace eBanking.Services
                 {
                     var response = httpClient
                         //.GetAsync("http://api.exchangeratesapi.io/latest?access_key=1321df5586167c5aef4b48e9a5f48100") MM
-                        .GetAsync("http://api.exchangeratesapi.io/latest?access_key=e679628e9639d0e7a2978ae3c8334092") // ZZ
+                        //.GetAsync("http://api.exchangeratesapi.io/latest?access_key=e679628e9639d0e7a2978ae3c8334092") // ZZ
+                        .GetAsync("http://api.exchangeratesapi.io/latest?access_key=9af4380e30dc86fcdf244b7ee3b178d9") // Mr                        
                         .Result;
                     var a = response.Content.ReadAsStringAsync().Result;
                     cr = Newtonsoft.Json.JsonConvert.DeserializeObject<CurrencyRates>(a);
@@ -64,7 +65,8 @@ namespace eBanking.Services
                         var dayString = _dateService.DateTimeToString(day);
                         var response = httpClient
                             //.GetAsync("http://api.exchangeratesapi.io/"+ dayString + "?access_key=1321df5586167c5aef4b48e9a5f48100") // MM
-                            .GetAsync("http://api.exchangeratesapi.io/"+ dayString + "?access_key=e679628e9639d0e7a2978ae3c8334092") // ZZ
+                            //.GetAsync("http://api.exchangeratesapi.io/"+ dayString + "?access_key=e679628e9639d0e7a2978ae3c8334092") // ZZ
+                            .GetAsync("http://api.exchangeratesapi.io/"+ dayString + "?access_key=9af4380e30dc86fcdf244b7ee3b178d9") // Mr
                             .Result;
                         var a = response.Content.ReadAsStringAsync().Result;
                         var rates = Newtonsoft.Json.JsonConvert.DeserializeObject<CurrencyRates>(a);

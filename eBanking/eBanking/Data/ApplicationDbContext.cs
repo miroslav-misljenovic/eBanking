@@ -10,6 +10,13 @@ namespace eBanking.Data
         {
 
         }
+
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+            : base(options)
+        {
+
+        }
+
         public virtual DbSet<Transaction> Transactions { get; set; }
         public virtual DbSet<BankAccount> BankAccounts { get; set; }
         public virtual DbSet<Currency> Currencies { get; set; }
@@ -51,11 +58,6 @@ namespace eBanking.Data
 
             base.OnModelCreating(modelBuilder);
 
-        }
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-            : base(options)
-        {
-            
         }
     }
 }

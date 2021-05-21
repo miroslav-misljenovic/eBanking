@@ -24,9 +24,16 @@ namespace eBanking
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Za Sql Server
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
+
+            // Za PostgreSQL
+            //var connStr = Configuration.GetConnectionString("NpgDbConnStr");
+            //services.AddEntityFrameworkNpgsql()
+            //        .AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(connStr));
+
             services.AddScoped<IDateService>(s => new DateService());
             services.AddScoped<ICurrencyRateService, CurrencyRateService>();
             services.AddScoped<IChartService, ChartService>();
