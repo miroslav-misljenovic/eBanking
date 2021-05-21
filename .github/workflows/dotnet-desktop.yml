@@ -43,15 +43,16 @@ jobs:
       run: dotnet test eBanking/eBanking.Tests
       
     # Execute all integration tests in the solution
-    - name: Execute integration tests
-      run: dotnet test eBanking/eBanking.IntegrationTests
+   # - name: Execute integration tests
+   #   run: dotnet test eBanking/eBanking.IntegrationTests
   
     - name: dotnet publish 
       run: |
-        dotnet publish -c Release -o ./eBankingPublish
-        rm ./eBankingPublish/appsettings.json
+        ls -a
+        dotnet publish -c Release -o ./eBanking/eBanking/    
         mkdir downloads
-        cp -R ./eBankingPublish/* ./downloads
+        cp -R ./eBanking/eBanking/* ./downloads
+        rm ./downloads/eBanking/appsettings.json
     
     - name: Copy folder content recursively to remote
       uses: garygrossgarten/github-action-scp@v0.7.3
@@ -68,7 +69,7 @@ jobs:
         command: |
           cd /home/miki/eBanking/
           killall screen
-          screen -d -m dotnet eBanking.dll --urls="http://*:5001/"          
+          screen -d -m dotnet eBanking.dll          
         host: ${{ secrets.SSH_HOST }}
         username: ${{ secrets.SSH_USERNAME }}
         password: ${{ secrets.SSH_PASSWORD }}
