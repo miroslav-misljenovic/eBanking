@@ -43,8 +43,8 @@ jobs:
       run: dotnet test eBanking/eBanking.Tests
       
     # Execute all integration tests in the solution
-   # - name: Execute integration tests
-   #   run: dotnet test eBanking/eBanking.IntegrationTests
+    - name: Execute integration tests
+      run: dotnet test eBanking/eBanking.IntegrationTests
   
     - name: dotnet publish 
       run: |
