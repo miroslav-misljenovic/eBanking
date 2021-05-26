@@ -17,7 +17,8 @@ namespace eBanking
         {
             Log.Logger = new LoggerConfiguration()
                 .Enrich.FromLogContext()
-                .WriteTo.File(new RenderedCompactJsonFormatter(), @"D:\eBanking\eBanking\eBanking\LoggerFile.json")
+                //.WriteTo.File(new RenderedCompactJsonFormatter(), @"D:\eBanking\eBanking\eBanking\LoggerFile.json")
+                .WriteTo.File(new RenderedCompactJsonFormatter(), "LoggerFile.json")
                 .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning)
                 .CreateLogger();           
         

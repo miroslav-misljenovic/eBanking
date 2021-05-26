@@ -49,7 +49,7 @@ namespace eBanking.Services
         }
         public void RefreshRates()
         {
-            DateTime start = new DateTime(2021, 5, 1);
+            DateTime start = new DateTime(2021, 4, 1);
             var lastDate = _dbContext.CurrencyRateHistory.OrderBy(x => x.Date).LastOrDefault();
             if (lastDate != null)
             {
