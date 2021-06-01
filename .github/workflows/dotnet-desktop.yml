@@ -57,14 +57,14 @@ jobs:
         ls -a
         rm appsettings.json
     
-   # - name: Copy folder content recursively to remote
-   #   uses: garygrossgarten/github-action-scp@v0.7.3
-   #   with:
-   #       local: './downloads'
-   #       remote: '/home/miki/eBanking/'
-   #       host: ${{ secrets.SSH_HOST }}
-   #       username: ${{ secrets.SSH_USERNAME }}
-   #       password: ${{ secrets.SSH_PASSWORD }}
+    - name: Copy folder content recursively to remote
+      uses: garygrossgarten/github-action-scp@v0.7.3
+      with:
+          local: 'downloads'
+          remote: '/home/miki/eBanking/'
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
           
    # - name: Run SSH command
    #   uses: garygrossgarten/github-action-ssh@v0.6.3
