@@ -60,7 +60,7 @@ jobs:
     - name: Copy folder content recursively to remote
       uses: garygrossgarten/github-action-scp@v0.7.3
       with:
-          local: 'downloads'
+          local: './downloads'
           remote: '/home/miki/eBanking/'
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
