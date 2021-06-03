@@ -50,7 +50,7 @@ jobs:
       run: |
         cd eBanking
         ls -a
-        dotnet publish -o ./Publish   
+        dotnet publish -c Release -o ./Publish   
         cd Publish         
         rm appsettings.json       
         ls -a
