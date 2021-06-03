@@ -19,6 +19,7 @@ namespace eBanking
                 .Enrich.FromLogContext()
                 //.WriteTo.File(new RenderedCompactJsonFormatter(), @"D:\eBanking\eBanking\eBanking\LoggerFile.json")
                 .WriteTo.File(new RenderedCompactJsonFormatter(), "LoggerFile.json")
+                .WriteTo.Console(LogEventLevel.Debug)
                 .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning)
                 .CreateLogger();           
         
