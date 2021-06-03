@@ -20,7 +20,12 @@ jobs:
     - name: Install .NET Core
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 5.0.x
+            dotnet-version: 3.1.x
+            
+    - name: Install .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+            dotnet-version: 5.0.x
 
     # Add  MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
    # - name: Setup MSBuild.exe
@@ -39,37 +44,39 @@ jobs:
       run: dotnet build --configuration Release ./eBanking    
 
     # Execute all unit tests in the solution
-    - name: Execute unit tests
-      run: dotnet test eBanking/eBanking.Tests
+    #- name: Execute unit tests
+    #  run: dotnet test eBanking/eBanking.Tests
       
     # Execute all integration tests in the solution
-    - name: Execute integration tests
-      run: dotnet test eBanking/eBanking.IntegrationTests
+   # - name: Execute integration tests
+   #   run: dotnet test eBanking/eBanking.IntegrationTests
   
     - name: dotnet publish 
       run: |
+        cd eBanking
         ls -a
-        dotnet publish -c Release -o ./eBanking/eBanking/    
-        mkdir downloads
-        cp -R ./eBanking/eBanking/* ./downloads
-        rm ./downloads/eBanking/appsettings.json
+        dotnet publish -c Release -o ./Publish   
+        cd Publish         
+        rm appsettings.json
+        rm -r cs de es fr it ja ko pl ru
+        ls -a
     
     - name: Copy folder content recursively to remote
       uses: garygrossgarten/github-action-scp@v0.7.3
       with:
-          local: './downloads'
-          remote: '/home/miki/eBanking/'
+          local: './eBanking/Publish'
+          remote: '/home/miki/eBankingPublish/'
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           password: ${{ secrets.SSH_PASSWORD }}
           
-    - name: Run SSH command
-      uses: garygrossgarten/github-action-ssh@v0.6.3
-      with:
-        command: |
-          cd /home/miki/eBanking/
-          killall screen
-          screen -d -m dotnet eBanking.dll          
-        host: ${{ secrets.SSH_HOST }}
-        username: ${{ secrets.SSH_USERNAME }}
-        password: ${{ secrets.SSH_PASSWORD }}
+   # - name: Run SSH command
+   #   uses: garygrossgarten/github-action-ssh@v0.6.3
+   #   with:
+   #     command: |
+   #       cd /home/miki/eBanking/
+   #       killall screen
+   #       screen -d -m dotnet eBanking.dll          
+   #     host: ${{ secrets.SSH_HOST }}
+   #     username: ${{ secrets.SSH_USERNAME }}
+   #     password: ${{ secrets.SSH_PASSWORD }}
