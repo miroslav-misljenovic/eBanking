@@ -50,18 +50,16 @@ jobs:
       run: |
         cd eBanking
         ls -a
-        dotnet publish -c Release -o ./eBanking/   
-        mkdir downloads
-        cp -R ./eBanking/* ./downloads
-        cd downloads        
-        rm appsettings.json
+        dotnet publish -o ./Publish   
+        cd Publish         
+        rm appsettings.json       
         ls -a
     
     - name: Copy folder content recursively to remote
       uses: garygrossgarten/github-action-scp@v0.7.3
       with:
-          local: './eBanking/downloads'
-          remote: '/home/miki/eBanking/'
+          local: './eBanking/Publish'
+          remote: '/home/miki/eBankingPublish/'
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           password: ${{ secrets.SSH_PASSWORD }}
