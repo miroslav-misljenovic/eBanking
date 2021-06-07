@@ -43,24 +43,13 @@ jobs:
     - name: Build with dotnet
       run: dotnet build --configuration Release ./eBanking    
 
-    # Execute all unit tests in the solution
-    #- name: Execute unit tests
-    #  run: dotnet test eBanking/eBanking.Tests
+    #Execute all unit tests in the solution
+    - name: Execute unit tests
+      run: dotnet test eBanking/eBanking.Tests
       
     # Execute all integration tests in the solution
-   # - name: Execute integration tests
-   #   run: dotnet test eBanking/eBanking.IntegrationTests
-  
-#    - name: dotnet publish 
-#      run: |
-#        cd eBanking
- #       ls -a
-#        dotnet publish -c Release -o ./Publish
-#        cd Publish
-#        ls -a
-#        rm appsettings.json
-#        rm -r cs de es fr it ja ko pl ru zh-Hans zh-Hant tr pt-BR
-#        ls -a
+    - name: Execute integration tests
+      run: dotnet test eBanking/eBanking.IntegrationTests
 
     - name: dotnet publish 
       run: |
@@ -81,15 +70,15 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           password: ${{ secrets.SSH_PASSWORD }}
           
-   # - name: Run SSH command
-   #   uses: garygrossgarten/github-action-ssh@v0.6.3
-   #   with:
-   #     command: |
-   #       !!!rm LoggerFile.json
-   #       !!!rm investmentChartData.json   
-   #       cd /home/miki/eBanking/
-   #       killall screen
-   #       screen -d -m dotnet eBanking.dll          
-   #     host: ${{ secrets.SSH_HOST }}
-   #     username: ${{ secrets.SSH_USERNAME }}
-   #     password: ${{ secrets.SSH_PASSWORD }}
+    - name: Run SSH command
+      uses: garygrossgarten/github-action-ssh@v0.6.3
+      with:
+        command: |        
+          cd /home/miki/binDebug
+          killall screen
+          rm LoggerFile.json
+          rm investmentChartData.json          
+          screen -d -m dotnet eBanking.dll          
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USERNAME }}
+        password: ${{ secrets.SSH_PASSWORD }}
