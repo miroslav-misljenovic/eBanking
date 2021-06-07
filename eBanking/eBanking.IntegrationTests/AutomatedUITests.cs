@@ -14,6 +14,8 @@ namespace eBanking.IntegrationTests
             options.AddArgument("--no-sandbox");
             options.AddArgument("--disable-dev-shm-usage");
             options.AddArgument("--headless");
+            options.AddAdditionalCapability("version", 91.0);
+            //options.BrowserVersion("91.0.4472.77");
             _driver = new ChromeDriver(options);
         }
 
