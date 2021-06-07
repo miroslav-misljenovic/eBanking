@@ -75,7 +75,7 @@ jobs:
     - name: Copy folder content recursively to remote
       uses: garygrossgarten/github-action-scp@v0.7.3
       with:
-          local: './eBanking/bin/Debug/netcoreapp3.1/publish/'
+          local: './eBanking/eBanking/bin/Debug/netcoreapp3.1/publish/'
           remote: '/home/miki/binDebug'
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
