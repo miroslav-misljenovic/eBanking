@@ -19,6 +19,14 @@ namespace eBanking.Controllers
             CurrencyRates cr = _currencyRateService.GetCurrencyRate();
             return View(cr);
         }
+
+        [HttpGet, Route("RefreshRates")]
+        public IActionResult RefreshRates()
+        {
+            _currencyRateService.RefreshRates();
+            return Index();
+        }
+
         public IActionResult Privacy()
         {
             return View();

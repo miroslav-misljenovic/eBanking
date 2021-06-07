@@ -28,10 +28,15 @@ namespace eBanking.Controllers
         public IActionResult Index()
         {
             PopulateCurrencies();
+
+            var currencies = _currencyRateService.GetCurrencyList();
+            int currency1 = currencies.First(a => a.Name == "VEF").Id;
+            int currency2 = currencies.First(a => a.Name == "RSD").Id;
+
             var investmentChart = new InvestmentChart
             {
-                FirstCurrency = 153,
-                SecondCurrency = 21,
+                FirstCurrency = currency1,
+                SecondCurrency = currency2,
                 StartingDate = DateTime.Now.AddDays(-70),
                 EndingDate = DateTime.Now.AddDays(30),
                 RadioResponse = "LinearRegression",
