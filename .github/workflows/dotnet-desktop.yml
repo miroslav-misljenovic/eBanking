@@ -67,8 +67,7 @@ jobs:
         cd eBanking
         ls
         dotnet publish
-        ls
-        cd ./eBanking
+        cd ./eBanking/bin
         ls
     
 #    - name: Copy folder content recursively to remote
