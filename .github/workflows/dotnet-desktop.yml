@@ -56,12 +56,10 @@ jobs:
         cd eBanking
         ls -a
         dotnet publish -c Release -o ./Publish
+        cd Publish
         ls -a
-        cd Publish         
         rm appsettings.json
         rm -r cs de es fr it ja ko pl ru zh-Hans zh-Hant tr pt-BR
-        rm LoggerFile.json
-        rm investmentChartData.json
         ls -a
     
     - name: Copy folder content recursively to remote
@@ -77,6 +75,8 @@ jobs:
    #   uses: garygrossgarten/github-action-ssh@v0.6.3
    #   with:
    #     command: |
+   #       !!!rm LoggerFile.json
+   #       !!!rm investmentChartData.json   
    #       cd /home/miki/eBanking/
    #       killall screen
    #       screen -d -m dotnet eBanking.dll          
