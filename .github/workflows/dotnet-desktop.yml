@@ -67,10 +67,9 @@ jobs:
         command: |
           screen -ls
           cd /home/miki/GithubActionsPublish
-          killall screen
-          rm LoggerFile.json
-          rm investmentChartData.json          
-          screen -d -m dotnet eBanking.dll        
+          screen -dmS gitHubActions dotnet eBanking.dll
+          screen -ls
+        # screen -X -S gitHubActions quit ON LINE 70
         host: ${{ secrets.SSH_HOST }}
         username: ${{ secrets.SSH_USERNAME }}
         password: ${{ secrets.SSH_PASSWORD }}
