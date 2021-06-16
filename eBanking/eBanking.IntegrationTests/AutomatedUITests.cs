@@ -23,7 +23,8 @@ namespace eBanking.IntegrationTests
         public void ExchangeRateIndexTest()
         {
             _driver.Navigate()
-                .GoToUrl("http://liss.matf.bg.ac.rs:5000/ExchangeRate");
+                //.GoToUrl("http://liss.matf.bg.ac.rs:5000/ExchangeRate");
+                .GoToUrl("http://62.75.156.53:5000/ExchangeRate/");
             Assert.Equal("Index - Currency Explorer", _driver.Title);
             Assert.Contains("Insert for which date you want the exchange rate list in format YYYY-MM-DD:", _driver.PageSource); _driver.Navigate();
         }
@@ -32,7 +33,9 @@ namespace eBanking.IntegrationTests
         public void ExchangeRateGenerateListTest()
         {
             _driver.Navigate()
-                .GoToUrl("http://liss.matf.bg.ac.rs:5000/ExchangeRate");
+                //.GoToUrl("http://liss.matf.bg.ac.rs:5000/ExchangeRate");
+                .GoToUrl("http://62.75.156.53:5000/ExchangeRate/");
+
             _driver.FindElement(By.Id("Date")).SendKeys("2021-04-01");
             _driver.FindElement(By.Id("Load"))
                 .Click();
