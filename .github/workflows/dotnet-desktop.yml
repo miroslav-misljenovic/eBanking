@@ -1,8 +1,8 @@
 name: .NET Core Desktop
 
 on:
-  push:
-    branches: [ master ]
+  #push:
+  #  branches: [ master ]
   pull_request:
     branches: [ master ]
 
@@ -17,68 +17,59 @@ jobs:
       uses: actions/checkout@v2
 
     # Install the .NET Core workload
-    - name: Install .NET Core
+    - name: Install .NET Core 3.1 
       uses: actions/setup-dotnet@v1
       with:
             dotnet-version: 3.1.x
             
-    - name: Install .NET Core
+    - name: Install .NET Core 5.0
       uses: actions/setup-dotnet@v1
       with:
             dotnet-version: 5.0.x
-
-    # Add  MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
-   # - name: Setup MSBuild.exe
-   #   uses: microsoft/setup-msbuild@v1
   
     - name: Setup NuGet
       uses: NuGet/setup-nuget@v1.0.5
       
     - name: Restore NuGet packages
       run: nuget restore eBanking/eBanking.sln
-      
-   # - name: Build the Solution
-   #   run: msbuild eBanking\eBanking.sln        
 
-    - name: Build with dotnet
+    - name: Building
       run: dotnet build --configuration Release ./eBanking    
 
-    #Execute all unit tests in the solution
-    - name: Execute unit tests
+    - name: Executing unit tests
       run: dotnet test eBanking/eBanking.Tests
       
-    # Execute all integration tests in the solution
-    - name: Execute integration tests
+    - name: Executing integration tests
       run: dotnet test eBanking/eBanking.IntegrationTests
 
-    - name: dotnet publish 
+    - name: Publishing
       run: |
         cd eBanking
         ls
         dotnet publish
-        cd ./eBanking/bin/Debug/netcoreapp3.1/publish/        
+        cd ./eBanking/bin/Debug/netcoreapp3.1/publish/
         rm appsettings.json
         rm -r cs de es fr it ja ko pl ru zh-Hans zh-Hant tr pt-BR
         ls
     
-    - name: Copy folder content recursively to remote
+    - name: Deploying
       uses: garygrossgarten/github-action-scp@v0.7.3
       with:
           local: './eBanking/eBanking/bin/Debug/netcoreapp3.1/publish/'
-          remote: '/home/miki/binDebug'
+          remote: '/home/miki/GithubActionsPublish'
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           password: ${{ secrets.SSH_PASSWORD }}
           
-    - name: Run SSH command
-      uses: garygrossgarten/github-action-ssh@v0.6.3
-      with:
-        command: |        
-          cd /home/miki/binDebug
-          killall screen
-          rm LoggerFile.json
-          rm investmentChartData.json          
-          screen -d -m dotnet eBanking.dll          
-        host: ${{ secrets.SSH_HOST }}
-        username: ${{ secrets.SSH_USERNAME }}
-        password: ${{ secrets.SSH_PASSWORD }}
+#    - name: Starting application
+#      uses: garygrossgarten/github-action-ssh@v0.6.3
+#      with:
+#        command: |        
+#          cd /home/miki/GithubActionsPublish
+#          killall screen
+#          rm LoggerFile.json
+#          rm investmentChartData.json          
+#          screen -d -m dotnet eBanking.dll        
+#        host: ${{ secrets.SSH_HOST }}
+#        username: ${{ secrets.SSH_USERNAME }}
+#        password: ${{ secrets.SSH_PASSWORD }}
