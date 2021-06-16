@@ -61,15 +61,16 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           password: ${{ secrets.SSH_PASSWORD }}
           
-#    - name: Starting application
-#      uses: garygrossgarten/github-action-ssh@v0.6.3
-#      with:
-#        command: |        
-#          cd /home/miki/GithubActionsPublish
-#          killall screen
-#          rm LoggerFile.json
-#          rm investmentChartData.json          
-#          screen -d -m dotnet eBanking.dll        
-#        host: ${{ secrets.SSH_HOST }}
-#        username: ${{ secrets.SSH_USERNAME }}
-#        password: ${{ secrets.SSH_PASSWORD }}
+    - name: Starting application
+      uses: garygrossgarten/github-action-ssh@v0.6.3
+      with:
+        command: |
+          screen -ls
+          cd /home/miki/GithubActionsPublish
+          killall screen
+          rm LoggerFile.json
+          rm investmentChartData.json          
+          screen -d -m dotnet eBanking.dll        
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USERNAME }}
+        password: ${{ secrets.SSH_PASSWORD }}
