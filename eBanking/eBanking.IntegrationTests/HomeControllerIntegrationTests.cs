@@ -14,7 +14,8 @@ namespace eBanking.IntegrationTests
         [Fact]
         public void LoginTest()
         {
-            var response = _client.GetAsync("http://liss.matf.bg.ac.rs:5000/Identity/Account/Login").Result;
+            //var response = _client.GetAsync("http://liss.matf.bg.ac.rs:5000/Identity/Account/Login").Result;
+            var response = _client.GetAsync("http://62.75.156.53:5000/Identity/Account/Login").Result;
 
             response.EnsureSuccessStatusCode();
             var responseString = response.Content.ReadAsStringAsync().Result;
@@ -25,8 +26,9 @@ namespace eBanking.IntegrationTests
         [Fact]
         public void HomeTest()
         {
-
-            var response = _client.GetAsync("http://liss.matf.bg.ac.rs:5000/").Result;
+        
+            //var response = _client.GetAsync("http://liss.matf.bg.ac.rs:5000/").Result;
+            var response = _client.GetAsync("http://62.75.156.53:5000/").Result;
             
             response.EnsureSuccessStatusCode();
 
