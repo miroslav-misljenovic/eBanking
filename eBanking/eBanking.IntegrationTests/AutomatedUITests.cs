@@ -15,6 +15,7 @@ namespace eBanking.IntegrationTests
             options.AddArgument("--disable-dev-shm-usage");
             options.AddArgument("--headless");
             _driver = new ChromeDriver(options);
+            // Chromedriver updated to 91.0.4472.106
         }
 
         // Start application without debugging (CTRL + F5)
